@@ -7,17 +7,30 @@ class SearchBar extends React.Component {
         this.state = {
             query: ""
         }
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        let { value } = event.target;
+        this.setState({
+            query: value,
+        });
+    }
+
+    render() {
+        return (
+        <form onSubmit={() => this.props.search(this.state.query)}>
+            <label>
+                Search for a movie:
+             <input type='text' name='search' value={this.state.query} onChange={this.handleChange} />
+            </label>
+            <input type='submit' value='Submit' />
+            <button onClick={()=> this.props.reset(null)}>Clear Searched Movies</button>
+        </form>
+
+        );
     }
 }
 
-const SearchBar = props => (
-    <form onSubmit={()=> props.search(event)}>
-        <label>
-            Search for a movie:
-            <input type='text' name='search' value={this.state.query} />
-        </label>
-        <input type='submit' value='Submit' />
-    </form>
-);
 
 export default SearchBar;
