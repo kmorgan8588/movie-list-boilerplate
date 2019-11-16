@@ -1,20 +1,22 @@
 import React from 'react';
 import SearchBar from './SearchBar.jsx';
 import MovieList from './MovieList.jsx';
-import SearchList from './SearchList.jsx';
 import AddMovies from './AddMovies.jsx';
+import Watched from './Watched.jsx';
+import ToWatch from './ToWatch.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
-      search: null
+      search: null,
+      watched: false,
     }
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddMovies = this.handleAddMovies.bind(this);
     this.handleReset = this.handleReset.bind(this);
-    this.updateClass = this.updateClass.bind(this);
+    this.toggleWatch = this.toggleWatch.bind(this);
   }
 
   handleAddMovies(movie) {
@@ -38,8 +40,10 @@ class App extends React.Component {
     this.handleSearch(search);
   }
 
-  updateClass() {
-    console.log('hi');
+  toggleWatch(state) {
+    this.setState({
+      watched: state
+    })
   }
 
   render() {
@@ -47,7 +51,9 @@ class App extends React.Component {
       <div>
         <AddMovies add={this.handleAddMovies} />
         <SearchBar search={this.handleSearch} reset={this.handleReset} />
-        <MovieList movies={this.state.movies} search={this.state.search} />
+        <Watched toggle={this.toggleWatch} />
+        <ToWatch toggle={this.toggleWatch}/>
+        <MovieList movies={this.state.movies} search={this.state.search} watch={this.state.watched}  />
       </div>
     );
   }

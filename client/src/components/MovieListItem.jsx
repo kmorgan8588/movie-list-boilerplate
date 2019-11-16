@@ -27,18 +27,22 @@ class MovieListItem extends React.Component {
 
     render() {
         const { title } = this.props.movie;
-        const { search } = this.props;
+        const { search, watch } = this.props;
         const searched = this.handleSearch(search, title);
         const watched = this.state.watched;        
         const option = { true: 'watched', false: 'watch soon' };
-
+        console.log(this.state);
+        if(watch === watched){
         return (
             <tr>
                 <td className={ searched ? 'searched' : 'none' } >{title}</td>
-                <td><button onClick={this.handleClick} >{option[watched]}</button>
+                <td><button className='watch' onClick={this.handleClick} >{option[watched]}</button>
                 </td>
             </tr>
         );
+    } else {
+        return null;
+    }
     }
 }
 
