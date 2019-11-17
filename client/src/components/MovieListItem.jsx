@@ -5,14 +5,22 @@ class MovieListItem extends React.Component {
         super(props);
         this.state = {
             watched: false,
+            extras: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleExtras = this.handleExtras.bind(this);
     }
 
     handleClick() {
         this.setState({
             watched: !this.state.watched
+        })
+    }
+
+    handleExtras() {
+        this.setState({
+            extras: !this.state.extras,
         })
     }
 
@@ -26,18 +34,26 @@ class MovieListItem extends React.Component {
     }
 
     render() {
-        const { title } = this.props.movie;
+        const { title, release_date, overview, popularity, poster_path } = this.props.movie;
         const { search, watch } = this.props;
+        const extras = this.state.extras;
         const searched = this.handleSearch(search, title);
         const watched = this.state.watched;        
         const option = { true: 'watched', false: 'watch soon' };
-        console.log(this.state);
+        const path = 'https://image.tmdb.org/t/p/w500';
+
+        console.log(this.props);
         if(watch === watched){
         return (
-            <tr>
+            <tr onClick={this.handleExtras}>
                 <td className={ searched ? 'searched' : 'none' } >{title}</td>
+                {extras ? <tr><td>Release Date: {release_date}</td>
+                <td>Popularity: {popularity}</td>
+                <td><img src={path+poster_path} height='150' width='100'/></td>
+                <td>Overview: {overview}</td>
                 <td><button className='watch' onClick={this.handleClick} >{option[watched]}</button>
                 </td>
+                </tr> : <td>Click for more details</td>}
             </tr>
         );
     } else {

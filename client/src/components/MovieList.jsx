@@ -6,7 +6,7 @@ const MovieList = ({ movies, search, watch }) => (
     <table className = 'movies'>
         <tbody>
             {movies.map(movie =>
-                <MovieListItem movie={movie} key={movie.title} search={search} watch={watch} />)}
+                <MovieListItem movie={movie} key={movie.id} search={search} watch={watch} />)}
         </tbody>
     </table>
 );

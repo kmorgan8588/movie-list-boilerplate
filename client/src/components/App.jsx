@@ -4,6 +4,7 @@ import MovieList from './MovieList.jsx';
 import AddMovies from './AddMovies.jsx';
 import Watched from './Watched.jsx';
 import ToWatch from './ToWatch.jsx';
+import APIkey from '../APIkey.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,11 +22,16 @@ class App extends React.Component {
 
   handleAddMovies(movie) {
     event.preventDefault();
-    const state = this.state.movies.slice();
-    state.push( {title: movie} );
-    this.setState({
-      movies: state,
+    fetch( `https://api.themoviedb.org/3/search/movie?api_key=${APIkey}&language=en-US&query=${movie}&page=1&include_adult=false`)
+    .then(response => response.json())
+    .then( response => {
+      const state = this.state.movies.slice();
+      state.push( response.results[0] );
+      this.setState({
+        movies: state,
+      })
     })
+    .catch(err => console.log(err));
   }
 
   handleSearch(search) {
@@ -33,7 +39,6 @@ class App extends React.Component {
     this.setState({
       search: search
     })
-    console.log(search);
   }
 
   handleReset(search) {
